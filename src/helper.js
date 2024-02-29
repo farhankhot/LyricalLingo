@@ -18,12 +18,6 @@ export async function selectSong(videoId) {
     const song = songDetails[videoId];
     const englishLyrics = await loadLyrics(song.name, 'english');
     const frenchLyrics = await loadLyrics(song.name, 'french');
-
-    // Fill the learned words div with all the French words
-    const learnedWords = frenchLyrics.map(item => {
-        return { word: item.word, translation: 'Translation here' }; // Replace 'Translation here' with actual translation logic
-    });
-    // updateLearnedWordsList();
     return [englishLyrics, frenchLyrics];
 }
 
@@ -42,14 +36,3 @@ export function getSongName(videoId) {
   const song = songDetails[videoId];
   return song.displayName; 
 }
-
-// function updateLearnedWordsList() {
-//     const learnedWordsList = document.getElementById('learnedWords');
-//     learnedWordsList.innerHTML = '';
-
-//     learnedWords.forEach(item => {
-//         const listItem = document.createElement('li');
-//         listItem.innerText = `${item.word} - ${item.translation}`;
-//         learnedWordsList.appendChild(listItem);
-//     });
-// }

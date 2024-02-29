@@ -1,8 +1,17 @@
-.highlight {
-  background-color: yellow;
-}
-
 .youtube-player-container {
   overflow: hidden;
   border-radius: 15px; /* Adjust the radius as needed */
+}
+
+@keyframes fadeIn {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: purple; /* or any highlight color you prefer */
+  }
+}
+
+.word.highlight {
+  animation: fadeIn 0.3s ease-in-out forwards; /* Adjust timing as needed */
 }

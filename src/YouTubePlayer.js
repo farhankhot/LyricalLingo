@@ -19,6 +19,8 @@ function YouTubePlayer({ videoId, startTime, endTime, playerRef }) {
 
       window.onYouTubeIframeAPIReady = () => {
         playerRef.current = new window.YT.Player('player', {
+          height: '200',
+          width: '200',
           videoId: videoId,
           playerVars: {
             controls: 1, // the bottom bar on youtube
