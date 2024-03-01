@@ -13,5 +13,5 @@
 }
 
 .word.highlight {
-  animation: fadeIn 0.3s ease-in-out forwards; /* Adjust timing as needed */
+  animation: fadeIn 0.5s ease-in-out forwards; /* Adjust timing as needed */
 }

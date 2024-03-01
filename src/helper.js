@@ -2,12 +2,14 @@ const songDetails = {
     "fmdLsdmYzTo": {
         name: "i_know",
         displayName: "I KNOW ?",
+        artist: "Travis Scott",
         startTime: 90,
         endTime: 115
     },
     "Sv5yCzPCkv8": {
         name: "snooze",
         displayName: "Snooze",
+        artist: "SZA",
         startTime: 39,
         endTime: 55
     }
@@ -35,4 +37,9 @@ export async function loadLyrics(name, language) {
 export function getSongName(videoId) {
   const song = songDetails[videoId];
   return song.displayName; 
+}
+
+export function getArtistName(videoId) {
+  const song = songDetails[videoId];
+  return song.artist;
 }

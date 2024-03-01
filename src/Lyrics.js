@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Text,
+} from '@chakra-ui/react';
 
 import './App.css'; 
 
@@ -37,21 +41,25 @@ function Lyrics({ lyrics, language, playerRef }) {
   }, [activeWordIndex, lyrics, playerRef]);
 
   return (
-    <div id={`${language}Lyrics`}>
-      {lyrics.map((item, index) =>
+      <Box id={`${language}Lyrics`} overflowY="auto" maxH="300px">
+        {lyrics.map((item, index) =>
         item.word === '\n' ? (
           <br key={index} />
         ) : (
-          <span
+          <Text
+            as="span"
             key={index}
-            className={`word ${index === activeWordIndex ? 'highlight' : ''}`}
+            textShadow={index === activeWordIndex ? '0 0 10px #FFFFFF' : 'none'}
+            fontWeight={index === activeWordIndex ? '550' : '400'}
+            cursor={language === 'french' ? 'pointer' : 'default'}
             onClick={() => handleWordClick(item.word, language)}
+            className={index === activeWordIndex ? 'highlight' : ''}
           >
             {item.word}{' '}
-          </span>
+          </Text>
         )
       )}
-    </div>
+    </Box>
   );
 }
 
