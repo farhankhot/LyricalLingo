@@ -34,6 +34,13 @@ export async function loadLyrics(name, language) {
   return lyrics;
 }
 
+export async function getTranslation(videoId) {
+  const songName = songDetails[videoId].name;
+  const response = await fetch(`./${songName}_french_english_translation.json`);
+  const translation = await response.json();
+  return translation;
+}
+
 export function getSongName(videoId) {
   const song = songDetails[videoId];
   return song.displayName; 

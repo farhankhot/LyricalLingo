@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardHeader,
   CardBody,
@@ -8,16 +9,27 @@ import {
   StackDivider,
   Box,
   Text,
+  Grid,
   Flex,
   Select,
   Spacer,
+  Badge,
 } from '@chakra-ui/react';
-import {StarIcon } from '@chakra-ui/icons'
-
+import { useDisclosure } from '@chakra-ui/react';
 import { useState, useEffect, useRef } from 'react';
+
+import {StarIcon } from '@chakra-ui/icons'
+import { Icon } from '@chakra-ui/react'
+import { IoMdPlayCircle } from 'react-icons/io'
+import { IoMdSkipBackward } from 'react-icons/io'
+import { IoMdSkipForward } from 'react-icons/io'
+import { IoMdMicrophone } from 'react-icons/io'
+
+import {selectSong, startEndTimeOfSong, getSongName, getArtistName, getTranslation} from './helper.js';
+
 import YouTubePlayer from './YouTubePlayer';
-import {selectSong, startEndTimeOfSong, getSongName, getArtistName} from './helper.js';
 import Lyrics from './Lyrics.js';
+import LearnedWordsDrawer from './LearnedWordsDrawer.js';
 
 function MainPage() {
   const [videoId, setVideoId] = useState("");
@@ -29,6 +41,35 @@ function MainPage() {
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
   const playerRef = useRef(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [learnedWords, setLearnedWords] = useState([]);
+  const [translations, setTranslations] = useState([]);
+
+
+  const [frenchHoveredIndices, setFrenchHoveredIndices] = useState([]);
+  const [englishHoveredIndices, setEnglishHoveredIndices] = useState([]);
+
+  const handleWordHover = (index) => {
+    const translation = translations.find((t) => t.indices.includes(index));
+    if (translation) {
+      setEnglishHoveredIndices(translation.englishIndices);
+      setFrenchHoveredIndices(translation.indices);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setEnglishHoveredIndices([]);
+    setFrenchHoveredIndices([]);
+  };
+
+
+  const addLearnedWord = (word) => {
+    const translation = translations.find((item) => item.french === word);
+    if (translation && !learnedWords.some((item) => item.french === word)) {
+      setLearnedWords([...learnedWords, translation]);
+    }
+  };
 
   const fetchLyrics = async (initialVideoId) => {
     const [englishLyrics, frenchLyrics] = await selectSong(initialVideoId);
@@ -51,6 +92,11 @@ function MainPage() {
     const artistName = getArtistName(initialVideoId);
     setArtistName(artistName);
   }
+  
+  const fetchTranslation = async (initialVideoId) => {
+    const artistName = await getTranslation(initialVideoId);
+    setTranslations(artistName);
+  }
 
   useEffect(() => {
     const initialVideoId = "fmdLsdmYzTo";
@@ -59,6 +105,7 @@ function MainPage() {
     fetchArtistName(initialVideoId);
     fetchLyrics(initialVideoId);
     fetchStartEndTimeSong(initialVideoId);
+    fetchTranslation(initialVideoId);
   }, []);
 
   useEffect(() => {
@@ -87,73 +134,74 @@ function MainPage() {
 
   return (
     <>
-    <Flex as="nav" align="center" justify="space-between" wrap="wrap" padding="1rem" bg="purple.500" color="white">
-  <Flex align="center" mr={5}>
-    <StarIcon w={8} h={8} />
-    <Text fontSize="xl" fontWeight="bold" marginLeft="10px">
-      Lyrical Lingo
-    </Text>
-  </Flex>
-  <Spacer />
-  <Box>
-    {/* You can add additional navigation items here */}
-  </Box>
-</Flex>
+    <Flex as="nav" align="center" justify="space-between" wrap="wrap" padding="1rem" bgGradient="linear(to-r, #6D28D9, #4C1D95)" color="white">
+      <Flex align="center" mr={5}>
+        <StarIcon w={8} h={8} />
+        <Text fontSize="xl" fontWeight="bold" marginLeft="10px">
+          Lyrical Lingo
+        </Text>
+      </Flex>
+      <Spacer />
+      <Box>
+        {/* You can add additional navigation items here */}
+        <Button onClick={onOpen}>Learned Words</Button>
+      </Box>
+    </Flex>
 
-    <Flex justifyContent="center" alignItems="center" marginTop={5}>
+    <LearnedWordsDrawer isOpen={isOpen} onClose={onClose} learnedWords={learnedWords} />
+
+    <Flex
+      position="relative" 
+      justifyContent="center"
+      alignItems="center"
+      marginTop={5}
+      style={{ transition: 'margin-right .5s', marginRight: isOpen ? '300px' : '0px' }}
+    >
       <Card >
-        <CardHeader>
-          
-          <Heading size='lg' textAlign='center'>{songName}</Heading>
-          <Text fontSize="md" textAlign='center' marginTop="5px">
-            {artistName}
-          </Text>
-        </CardHeader>
-
         <CardBody>
-          <Flex direction={{ base: 'column', lg: 'row' }} align="start" justify="center" wrap="wrap">
+          <Flex direction={{ base: 'column', lg: 'row' }} align="start" justify="start" wrap="wrap">
             
-            {/* Here we render the YouTube Player */}
-            <Box flex="1" px="4">
-              <div className='youtube-player-container'>
-                <YouTubePlayer
-                  videoId={videoId}
-                  startTime={startTime}
-                  endTime={endTime}
-                  playerRef={playerRef}
-                />
-              </div>
+            <Box bg="black" borderRadius="md" overflow="hidden">
+              {/* Simulating an album cover container for the YouTube Player */}
+              <YouTubePlayer
+                videoId={videoId}
+                startTime={startTime}
+                endTime={endTime}
+                playerRef={playerRef}
+              />
             </Box>
-            <br></br>
-
-
-            {/* Here we render the lyrics */}
-            <Stack direction={{ base: 'column', md: 'row' }} divider={<StackDivider />} spacing="4">
-
-              <Box minHeight="200px" flex="1" bgGradient="linear(to-r, #6D28D9, #4C1D95)" p={4} borderRadius="md" boxShadow="0 0 10px #e0b0ff">
-                <Flex alignItems="center" justifyContent="space-between">
-                  {/* <Text fontWeight="bold" color="white" fontSize="lg">
-                    French Lyrics
-                  </Text> */}
-                  {/* <StarIcon /> */}
-                </Flex>
-                <Lyrics lyrics={frenchLyrics} language="french" playerRef={playerRef}/>
-              </Box>
-
-              <Box minHeight="200px" flex="1" bg="purple.500" p={4} borderRadius="md">
-                {/* <Text fontWeight="bold" color="white">
-                  English Lyrics
-                </Text> */}
-                <Lyrics lyrics={englishLyrics} language="english" playerRef={playerRef} />
-              </Box>
-
-            </Stack>
-            
-            {/* Sidebar for Learned Words */}
-            <Box order={3} flex="1" px="4">
-              
-            </Box>
+            <Flex direction="column" justifyContent="center" marginLeft={7}>
+              <Heading size='lg'>{songName}</Heading>
+              <Text fontSize="md"><Badge>{artistName}</Badge></Text>
+              <br></br>
+              <Button><Icon as={IoMdMicrophone}/>Record Yourself</Button>
+            </Flex>
           </Flex>
+
+          {/* <Flex justify="end" align="end" mt={{ base: -15, lg: -8 }} ml={{ base: -8, lg: 4 }} padding={4}>
+            <Icon as={IoMdSkipBackward} w={10} h={10} />
+            <Icon as={IoMdPlayCircle} w={12} h={12} mx={2} />
+            <Icon as={IoMdSkipForward} w={10} h={10} />
+          </Flex> */}
+          <br></br>
+          
+          {/* Here we render the lyrics */}
+          <Stack direction={{ base: 'column', md: 'row' }} divider={<StackDivider />} spacing="4">
+            <Box minHeight="200px" flex="1" bgGradient="linear(to-r, #6D28D9, #4C1D95)" p={4} borderRadius="md" boxShadow="0 0 10px #e0b0ff">
+              <Flex alignItems="center" justifyContent="space-between">
+              </Flex>
+              <Lyrics lyrics={frenchLyrics} language="french" playerRef={playerRef} 
+              addLearnedWord={addLearnedWord} translations={translations}
+              hoveredIndices={frenchHoveredIndices} handleWordHover={handleWordHover} handleMouseLeave={handleMouseLeave}/>
+            </Box>
+
+            {/* For english we do not pass addLearnedWord  */}
+            <Box minHeight="200px" flex="1" bg="purple.500" p={4} borderRadius="md">
+              <Lyrics lyrics={englishLyrics} language="english" playerRef={playerRef}
+              translations={translations} hoveredIndices={englishHoveredIndices}/>
+            </Box>
+          </Stack>
+
           <br></br>
 
           {/* Here, we render the options (song and playback speed) */}

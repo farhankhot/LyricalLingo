@@ -1,0 +1,122 @@
+[
+  {
+      "french": "Je te dis",
+      "english": "Tellin' you",
+      "indices": [0, 1, 2],
+      "englishIndices": [0, 1]
+  },
+  {
+      "french": "juste",
+      "english": "just",
+      "indices": [3],
+      "englishIndices": [2]
+  },
+  {
+      "french": "comment",
+      "english": "how",
+      "indices": [4],
+      "englishIndices": [3]
+  },
+  {
+      "french": "je me sens",
+      "english": "I feel",
+      "indices": [5, 6, 7],
+      "englishIndices": [4, 5]
+  },
+  {
+      "french": "en ce moment",
+      "english": "right now",
+      "indices": [8, 9, 10],
+      "englishIndices": [6, 7]
+  },
+  {
+      "french": "Tu as dit que",
+      "english": "You said",
+      "indices": [12, 13, 14, 15],
+      "englishIndices": [9, 10]
+  },
+  {
+      "french": "c'était",
+      "english": "it's",
+      "indices": [16],
+      "englishIndices": [11]
+  },
+  {
+    "french": "juste",
+    "english": "just",
+    "indices": [17],
+    "englishIndices": [12]
+  },
+  {
+      "french": "la drogue",
+      "english": "the drugs (feminine article 'la')",
+      "indices": [18, 19],
+      "englishIndices": [13, 14]
+  },
+  {
+    "french": "et",
+    "english": "and",
+    "indices": [20],
+    "englishIndices": [15]
+  },
+  {
+      "french": "Je sais",
+      "english": "I know",
+      "indices": [22, 23,24,25,26,27,28,29,30,31,32,33],
+      "englishIndices": [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+  },
+  {
+      "french": "J'ai",
+      "english": "I have",
+      "indices": [35],
+      "englishIndices": [32]
+  },
+  {
+      "french": "menti",
+      "english": "lied",
+      "indices": [36],
+      "englishIndices": [33]
+  },
+  {
+      "french": "aussi",
+      "english": "too",
+      "indices": [37],
+      "englishIndices": [34]
+  },
+  {
+      "french": "bien",
+      "english": "way",
+      "indices": [38],
+      "englishIndices": [35]
+  },
+  {
+      "french": "avant",
+      "english": "before",
+      "indices": [39, 40],
+      "englishIndices": [36, 37]
+  },
+  {
+      "french": "Avant que",
+      "english": "Before",
+      "indices": [42, 43],
+      "englishIndices": [39]
+  },
+  {
+      "french": "je ne t'aie",
+      "english": "I had you",
+      "indices": [44, 45, 46],
+      "englishIndices": [40, 41, 42]
+  },
+  {
+      "french": "dans",
+      "english": "in",
+      "indices": [47],
+      "englishIndices": [43, 44]
+  },
+  {
+      "french": "mes bras",
+      "english": "my arms",
+      "indices": [48, 49],
+      "englishIndices": [45, 46]
+  }
+]
